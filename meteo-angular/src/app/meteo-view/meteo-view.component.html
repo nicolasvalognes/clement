@@ -1,17 +1,21 @@
 <div id="weather-layout">
-    <div id="frameBanner" class="mat-title">
-      <p>Météo {{ viewCityName }}</p>
-    </div>
-    <iframe
-      id="apiFrame"
-      seamless
-      width="888"
-      height="336"
-      frameborder="0"
-      [src]="getSafeUrl(viewLatitude,viewLongitude)"
-      
-    ></iframe>
-    <div id="frameFooter">
-      <p>Données fournies par <a href="https://www.infoclimat.fr">www.infoclimat.fr</a></p>
-    </div>
+  <div id="frameBanner" class="mat-title">
+    <p>Météo {{ viewCityName }}</p>
   </div>
+
+  <iframe
+    id="apiFrame"
+    seamless
+    width="888"
+    height="336"
+    frameborder="0"
+    [src]="getSafeUrl(viewLatitude, viewLongitude)"
+  ></iframe>
+
+  <div id="frameFooter">
+    <p>
+      Données fournies par
+      <a href="https://www.infoclimat.fr">www.infoclimat.fr</a>
+    </p>
+  </div>
+</div>

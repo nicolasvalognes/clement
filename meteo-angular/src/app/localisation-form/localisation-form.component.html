@@ -1,89 +1,118 @@
 <div>
-    <div class="mat-display-3 title-1">Prévisions météo</div>
-    <div class="form-block">
-      <mat-radio-group
-        id="radio-loc"
-        aria-label="Select an option"
-        [(ngModel)]="myLocOption"
+  <div class="mat-display-3 title-1">Prévisions météo</div>
+  <div class="form-block">
+    <mat-radio-group
+      id="radio-loc"
+      aria-label="Select an option"
+      [(ngModel)]="myLocOption"
+    >
+      <mat-radio-button
+        class="radio-btn"
+        value="1"
+        name="content"
+        ng-model="content"
+        >Ma position</mat-radio-button
       >
-        <mat-radio-button
-          class="radio-btn"
-          value="1"
-          name="content"
-          ng-model="content"
-          >Ma position</mat-radio-button
+      <mat-radio-button
+        class="radio-btn"
+        value="2"
+        name="content"
+        ng-model="content"
+        >Code postal</mat-radio-button
+      >
+      <mat-radio-button
+        class="radio-btn"
+        value="3"
+        name="content"
+        ng-model="content"
+        >Coordonnées GPS</mat-radio-button
+      >
+    </mat-radio-group>
+
+    <!-- geoloc button -->
+    <div *ngIf="myLocOption == '1'" id="geoLoc">
+      <button
+        mat-flat-button
+        color="primary"
+        class="submit-btn"
+        (click)="onGeoLoc()"
+      >
+        voir la météo
+      </button>
+    </div>
+
+    <!-- input postCode -->
+    <form (ngSubmit)="onPostCode(f1)" #f1="ngForm" *ngIf="myLocOption == '2'">
+      <mat-form-field class="example-full-width">
+        <mat-label for="postCode">
+          Code postal
+        </mat-label>
+        <input
+          matInput
+          type="text"
+          id="postCode"
+          name="postCode"
+          ngModel
+          required
+        />
+      </mat-form-field>
+      <div>
+        <button
+          mat-flat-button
+          color="primary"
+          type="submit"
+          class="submit-btn"
         >
-        <mat-radio-button
-          class="radio-btn"
-          value="2"
-          name="content"
-          ng-model="content"
-          >Code postal</mat-radio-button
-        >
-        <mat-radio-button
-          class="radio-btn"
-          value="3"
-          name="content"
-          ng-model="content"
-          >Coordonnées GPS</mat-radio-button
-        >
-      </mat-radio-group>
-  
-      <!-- geoloc button -->
-      <div *ngIf="myLocOption == '1'" id="geoLoc">
-        <button mat-flat-button color="primary" class="submit-btn" (click)="onGeoLoc()">
           voir la météo
         </button>
       </div>
-  
-      <!-- input postCode -->
-      <form (ngSubmit)="onPostCode(f1)" #f1="ngForm" *ngIf="myLocOption == '2'">
-        <mat-form-field class="example-full-width">
-          <mat-label for="postCode">
-            Code postal
-          </mat-label>
-          <input matInput type="text" id="postCode" name="postCode" ngModel required/>
-        </mat-form-field>
-        <div>
-          <button
-            mat-flat-button
-            color="primary"
-            type="submit"
-            class="submit-btn"
-          >
-            voir la météo
-          </button>
-        </div>
-      </form>
-  
-      <!-- input gps data -->
-      <form (ngSubmit)="onGps(f3)" #f3="ngForm" *ngIf="myLocOption == '3'">
-        <mat-form-field class="example-full-width latlong-input">
-          <mat-label for="postCode">
-            Latitude
-          </mat-label>
-          <input matInput type="text" id="latitude" name="latitude" ngModel required/>
-        </mat-form-field>
-        <mat-form-field class="example-full-width latlong-input">
-          <mat-label for="postCode">
-            Longitude
-          </mat-label>
-          <input matInput type="text" id="longitude" name="longitude" ngModel required/>
-        </mat-form-field>
-        <div>
-          <button
-            mat-flat-button
-            color="primary"
-            type="submit"
-            class="submit-btn"
-          >
-            voir la météo
-          </button>
-        </div>
-      </form>
-    </div>
+    </form>
+
+    <!-- input gps data -->
+    <form (ngSubmit)="onGps(f3)" #f3="ngForm" *ngIf="myLocOption == '3'">
+      <mat-form-field class="example-full-width latlong-input">
+        <mat-label for="postCode">
+          Latitude
+        </mat-label>
+        <input
+          matInput
+          type="text"
+          id="latitude"
+          name="latitude"
+          ngModel
+          required
+        />
+      </mat-form-field>
+      <mat-form-field class="example-full-width latlong-input">
+        <mat-label for="postCode">
+          Longitude
+        </mat-label>
+        <input
+          matInput
+          type="text"
+          id="longitude"
+          name="longitude"
+          ngModel
+          required
+        />
+      </mat-form-field>
+      <div>
+        <button
+          mat-flat-button
+          color="primary"
+          type="submit"
+          class="submit-btn"
+        >
+          voir la météo
+        </button>
+      </div>
+    </form>
   </div>
-  <br />
-  <app-meteo-view [viewCityName]="cityName" [viewLongitude]="longitude" [viewLatitude]="latitude"
+</div>
+<div *ngIf='displayView'>
+  <app-meteo-view
+    [viewCityName]="cityName"
+    [viewLongitude]="longitude"
+    [viewLatitude]="latitude"
   ></app-meteo-view>
-  
+</div>

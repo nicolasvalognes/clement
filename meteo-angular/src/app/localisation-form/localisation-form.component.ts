@@ -9,22 +9,26 @@ import { HttpClient } from '@angular/common/http';
 })
 export class LocalisationFormComponent implements OnInit {
 
-  city: string = "Paris";
-  latitude: string;
-  longitude: string;
-  cityName: string;
+  // initialization and default data
+  latitude: string = '48.85341';
+  longitude: string = ' 2.3488';
+  cityName: string = 'Paris';
   myLocOption = '1';
   displayView = false;
 
-  apiData: any[];
-
   constructor(
+    // HttpClient to use the Geo Api from french government
     private httpClient: HttpClient
-  ) { }
+  ) {
 
-  ngOnInit(): void {
   }
 
+  ngOnInit(): void {
+    this.onGeoLoc()
+
+  }
+
+  // method to launch getCitybyLocation() with latitude and longitude from the navigator
   onGeoLoc() {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition((position: Position) => {
@@ -40,56 +44,69 @@ export class LocalisationFormComponent implements OnInit {
     } else {
       alert("la géolocalisation n'est pas supportée par votre navigateur, Merci de choisir une autre option");
     }
-    this.displayView = true;
-   
+
+
   }
 
+  // method to get latitude, longitude and cityName with the postCode
   onPostCode(form: NgForm) {
     console.log('retour formulaire :' + form.value.postCode);
     this.httpClient
       .get(`https://api-adresse.data.gouv.fr/search/?q=postcode=${form.value.postCode}&limit=1`)
       .subscribe(
         (response) => {
-          console.log(response['features'][0]['geometry']['coordinates']);
-          this.longitude = response['features'][0]['geometry']['coordinates'][0];
-          this.latitude = response['features'][0]['geometry']['coordinates'][1];
-          this.cityName = response['features'][0]['properties']['city'];
-          console.log('longitude : ' + this.longitude);
-          console.log('latitude : ' + this.latitude);
-          console.log('city : ' + this.cityName);
+          if (typeof (response['features'][0]['geometry']) === 'undefined') {
+            console.log('Les données saisies ne renvoient rien');
+            this.displayView = false;
+          } else {
+            console.log(response['features'][0]['geometry']['coordinates']);
+            this.longitude = response['features'][0]['geometry']['coordinates'][0];
+            this.latitude = response['features'][0]['geometry']['coordinates'][1];
+            this.cityName = response['features'][0]['properties']['city'];
+            console.log('longitude : ' + this.longitude);
+            console.log('latitude : ' + this.latitude);
+            console.log('city : ' + this.cityName);
+            this.displayView = true;
+          }
         },
         (error) => {
           console.log('erreur : ' + error);
+          alert("Une erreur s'est produite");
+          this.displayView = true;
         }
       );
-    this.displayView = true;
+
   }
 
+  // method to launch the getCitybyLocation() with latitude and longitude from the form
   onGps(form: NgForm) {
     this.latitude = form.value.latitude;
     console.log(this.latitude);
     this.longitude = form.value.longitude;
     console.log(this.longitude);
     this.getCitybyLocation(this.latitude, this.longitude);
-    this.displayView = true;
   }
 
+  // method to get the cityName by latitude and longitude
   getCitybyLocation(lat: string, long: string) {
     this.httpClient
-      //5.897897 45.577716
       .get(`https://api-adresse.data.gouv.fr/reverse/?lon=${long}&lat=${lat}`)
       .subscribe(
         (response) => {
-          if (typeof(response['features'][0]['properties']) === 'undefined') {
-             console.log('Les données saisies ne renvoient rien');
+          if (typeof (response['features'][0]['properties']) === 'undefined') {
+            console.log('Les données saisies ne renvoient rien');
+            this.displayView = false;
           } else {
             this.cityName = response['features'][0]['properties']['city'];
             console.log('ville :' + this.cityName);
+            this.displayView = true;
           }
+
         },
         (error) => {
           console.log('erreur : ' + error);
-          alert("les données saisies ne renvoient rien");
+          alert("Une erreur s'est produite");
+          this.displayView = false;
         }
       );
   }
