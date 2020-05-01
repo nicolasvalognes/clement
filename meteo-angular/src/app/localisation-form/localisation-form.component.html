@@ -42,7 +42,7 @@
     </div>
 
     <!-- input postCode -->
-    <form (ngSubmit)="onPostCode(f1)" #f1="ngForm" *ngIf="myLocOption == '2'">
+    <form (ngSubmit)="onPostCode(f2)" #f2="ngForm" *ngIf="myLocOption == '2'">
       <mat-form-field class="example-full-width">
         <mat-label for="postCode">
           Code postal
@@ -62,6 +62,7 @@
           color="primary"
           type="submit"
           class="submit-btn"
+          [disabled]="f2.invalid"
         >
           voir la météo
         </button>
@@ -102,6 +103,7 @@
           color="primary"
           type="submit"
           class="submit-btn"
+          [disabled]="f3.invalid"
         >
           voir la météo
         </button>
@@ -109,7 +111,7 @@
     </form>
   </div>
 </div>
-<div *ngIf='displayView'>
+<div *ngIf="displayView">
   <app-meteo-view
     [viewCityName]="cityName"
     [viewLongitude]="longitude"

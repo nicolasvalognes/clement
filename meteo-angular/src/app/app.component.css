@@ -1,11 +1,10 @@
-.navbar{
-    justify-content: space-between;
+.navbar {
+  justify-content: space-between;
 }
-.nav-btn{
-    margin-right: 1rem;
-}
-
-a{
-    color:white;
+.nav-btn {
+  margin-right: 1rem;
 }
 
+a {
+  color: white;
+}

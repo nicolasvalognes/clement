@@ -21,7 +21,7 @@ import { MeteoViewComponent } from './meteo-view/meteo-view.component'
     AppRoutingModule,
     BrowserAnimationsModule,
     MaterialModule,
-    FormsModule ,
+    FormsModule,
     HttpClientModule
   ],
   providers: [],

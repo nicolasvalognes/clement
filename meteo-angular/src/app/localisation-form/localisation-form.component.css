@@ -1,32 +1,29 @@
-.radio-btn{
-    
-    margin-right: 2rem;
-    margin-top: 1rem;
-    margin-bottom: 2rem;
+.radio-btn {
+  margin-right: 2rem;
+  margin-top: 1rem;
+  margin-bottom: 2rem;
 }
 
-.form-block{
-    text-align:center;
-    height:200px;
-    margin-top: 4rem;
+.form-block {
+  text-align: center;
+  height: 200px;
+  margin-top: 4rem;
 }
 
-.latlong-input{
-    margin-right: 1rem;
+.latlong-input {
+  margin-right: 1rem;
 }
 
-.title-1{
-    text-align:center;
-    margin-top: 2rem;
-    margin-bottom: 0rem;
+.title-1 {
+  text-align: center;
+  margin-top: 2rem;
+  margin-bottom: 0rem;
 }
 
-
-
-.submit-btn{
-    margin-top: 1rem;
+.submit-btn {
+  margin-top: 1rem;
 }
 
 a {
-    color:white
+  color: white;
 }

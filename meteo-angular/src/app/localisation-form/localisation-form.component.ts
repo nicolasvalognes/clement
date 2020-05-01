@@ -40,12 +40,15 @@ export class LocalisationFormComponent implements OnInit {
           this.getCitybyLocation(this.latitude, this.longitude);
         }
       },
-        (error: PositionError) => console.log(error));
+        (error: PositionError) => {
+          console.log(error);
+          alert("la géolocalisation n'est pas supportée par votre navigateur, Merci de choisir une autre option");
+          this.getCitybyLocation(this.latitude, this.longitude);
+        });
     } else {
-      alert("la géolocalisation n'est pas supportée par votre navigateur, Merci de choisir une autre option");
+      alert("Une erreur c'est produite");
+      this.getCitybyLocation(this.latitude, this.longitude);
     }
-
-
   }
 
   // method to get latitude, longitude and cityName with the postCode
@@ -55,19 +58,10 @@ export class LocalisationFormComponent implements OnInit {
       .get(`https://api-adresse.data.gouv.fr/search/?q=postcode=${form.value.postCode}&limit=1`)
       .subscribe(
         (response) => {
-          if (typeof (response['features'][0]['geometry']) === 'undefined') {
-            console.log('Les données saisies ne renvoient rien');
-            this.displayView = false;
-          } else {
-            console.log(response['features'][0]['geometry']['coordinates']);
-            this.longitude = response['features'][0]['geometry']['coordinates'][0];
-            this.latitude = response['features'][0]['geometry']['coordinates'][1];
-            this.cityName = response['features'][0]['properties']['city'];
-            console.log('longitude : ' + this.longitude);
-            console.log('latitude : ' + this.latitude);
-            console.log('city : ' + this.cityName);
-            this.displayView = true;
-          }
+          this.longitude = response['features'][0]['geometry']['coordinates'][0];
+          this.latitude = response['features'][0]['geometry']['coordinates'][1];
+          this.cityName = response['features'][0]['properties']['city'];
+          this.displayView = true;
         },
         (error) => {
           console.log('erreur : ' + error);
@@ -75,7 +69,6 @@ export class LocalisationFormComponent implements OnInit {
           this.displayView = true;
         }
       );
-
   }
 
   // method to launch the getCitybyLocation() with latitude and longitude from the form
@@ -93,15 +86,9 @@ export class LocalisationFormComponent implements OnInit {
       .get(`https://api-adresse.data.gouv.fr/reverse/?lon=${long}&lat=${lat}`)
       .subscribe(
         (response) => {
-          if (typeof (response['features'][0]['properties']) === 'undefined') {
-            console.log('Les données saisies ne renvoient rien');
-            this.displayView = false;
-          } else {
-            this.cityName = response['features'][0]['properties']['city'];
-            console.log('ville :' + this.cityName);
-            this.displayView = true;
-          }
-
+          this.cityName = response['features'][0]['properties']['city'];
+          console.log('ville :' + this.cityName);
+          this.displayView = true;
         },
         (error) => {
           console.log('erreur : ' + error);
